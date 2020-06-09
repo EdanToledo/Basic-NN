@@ -42,3 +42,33 @@ const float TLDEDA001::Node::Output() const
         return ThresholdActivation(tot);
     }
 }
+
+
+void TLDEDA001::Node::ResetWeights(const int NumOfWeights)
+{
+    weights.clear();
+    bias = 0;
+    for (int i = 0; i < NumOfWeights; i++)
+    {
+        //  float r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+
+        weights.push_back(0);
+    }
+}
+
+void TLDEDA001::Node::setInputs(const std::vector<float> inputs)
+{
+    this->inputs.clear();
+    this->inputs = inputs;
+}
+
+//Set threshold value for node
+void TLDEDA001::Node::setThreshold(const float threshold)
+{
+    this->threshold = threshold;
+}
+
+void TLDEDA001::Node::setBias(const float bias)
+{
+    this->bias = bias;
+}
