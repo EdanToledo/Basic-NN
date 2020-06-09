@@ -74,3 +74,28 @@ void TLDEDA001::AN_Network::setLearningRate(const float rate)
 }
 
 
+const float TLDEDA001::AN_Network::PredictIndividual(const int layer, const int index, const std::vector<float> inputs)
+{
+
+    layers[layer][index].setInputs(inputs);
+
+    return layers[layer][index].Output();
+}
+
+//predict
+const float TLDEDA001::AN_Network::Predict(const std::vector<float> inputs)
+{
+
+    std::vector<float> newInputs;
+    for (int i = 0; i < layers[0].size(); i++)
+    {
+        layers[0][i].setInputs(inputs);
+        newInputs.push_back(layers[0][i].Output());
+    }
+
+    layers[1][0].setInputs(newInputs);
+
+    return layers[1][0].Output();
+}
+
+
