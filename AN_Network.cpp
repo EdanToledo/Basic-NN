@@ -39,3 +39,38 @@ void TLDEDA001::AN_Network::Train(const TLDEDA001::TrainingData data)
     }
 }
 
+
+void TLDEDA001::AN_Network::Reset()
+{
+
+    for (int i = 0; i < layers[0].size(); i++)
+    {
+        layers[0][i].ResetWeights(NumInputs);
+    }
+
+    layers[1][0].ResetWeights(layers[0].size());
+}
+
+void TLDEDA001::AN_Network::setThresholdOfAllNodes(const float thresh)
+{
+
+    for (int i = 0; i < layers[0].size(); i++)
+    {
+        layers[0][i].setThreshold(thresh);
+    }
+
+    layers[1][0].setThreshold(thresh);
+}
+
+TLDEDA001::Node &TLDEDA001::AN_Network::getNode(const int layer, const int index)
+{
+    return layers[layer][index];
+}
+
+//set the learning rate
+void TLDEDA001::AN_Network::setLearningRate(const float rate)
+{
+    this->learningrate = rate;
+}
+
+
