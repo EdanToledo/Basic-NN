@@ -72,3 +72,21 @@ void TLDEDA001::Node::setBias(const float bias)
 {
     this->bias = bias;
 }
+
+
+void TLDEDA001::Node::PrintParameters() const
+{
+
+    std::cout << "Threshold: " << this->threshold << std::endl;
+    std::cout << "Bias: " << this->bias << std::endl;
+}
+
+//Manually set the weights
+void TLDEDA001::Node::setWeights(const std::vector<float> newWeights)
+{
+    weights.clear();
+    for (int i = 0; i < newWeights.size(); i++)
+    {
+        weights.push_back(newWeights[i]);
+    }
+}
