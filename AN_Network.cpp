@@ -99,3 +99,31 @@ const float TLDEDA001::AN_Network::Predict(const std::vector<float> inputs)
 }
 
 
+//train the network
+void TLDEDA001::AN_Network::BatchTrain(const int BatchSize, const TLDEDA001::TrainingData data)
+{
+    for (int l = 0; l < epochs; l++)
+    {
+        int batch = 0;
+        for (int k = 0; k < layers.size(); k++)
+        {
+            for (int j = 0; j < layers[k].size(); j++)
+            {
+                for (int i = 0; i < BatchSize; i++)
+                {
+                    layers[k][j].setInputs(data.getInputs(batch));
+                    layers[k][j].AdjustWeights(learningrate, data.getOutput(batch));
+                    batch++;
+                }
+            }
+        }
+    }
+}
+
+const float TLDEDA001::AN_Network::getMSE(const std::vector<float> inputs, const float ExpectedOutput)
+{
+    return pow((Predict(inputs) - ExpectedOutput), 2);
+}
+
+
+
