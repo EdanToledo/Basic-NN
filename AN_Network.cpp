@@ -18,3 +18,24 @@ TLDEDA001::AN_Network::AN_Network(const int NumInputs, const int NumInHiddenLaye
     layers[1][0].ResetWeights(layers[0].size());
 }
 
+
+//train the network
+void TLDEDA001::AN_Network::Train(const TLDEDA001::TrainingData data)
+{
+    for (int l = 0; l < epochs; l++)
+    {
+
+        for (int i = 0; i < data.getSize(); i++)
+        {
+            std::vector<float> hiddenlayerOut;
+            for (int j = 0; j < layers[0].size(); j++)
+            {
+                layers[0][j].setInputs(data.getInputs(i));
+                hiddenlayerOut.push_back(layers[0][j].AdjustWeights(learningrate, data.getOutput(i)));
+            }
+            layers[1][0].setInputs(hiddenlayerOut);
+            layers[1][0].AdjustWeights(learningrate, data.getOutput(i));
+        }
+    }
+}
+
