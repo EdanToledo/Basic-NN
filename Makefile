@@ -1,0 +1,43 @@
+EXECUTABLE_NAME2=FeedForwardEXE
+EXECUTABLE_NAME1=XOREXE
+PROGRAM_Driver2=FeedForwardDriver
+PROGRAM_Driver1=XOR_Driver
+PREFILE1=AN_Network
+PREFILE2=TrainingData
+PREFILE3=Node
+
+
+
+CC=g++
+COMPILE=-c -o
+LINK=-o
+
+FLAGS=-std=c++11 -g
+
+default: $(PROGRAM_Driver2) $(PROGRAM_Driver1)
+
+$(PROGRAM_Driver2): $(PROGRAM_Driver2).o
+	$(CC) $(FLAGS) $(LINK) $(EXECUTABLE_NAME2) $(PROGRAM_Driver2).o $(PREFILE1).o $(PREFILE2).o $(PREFILE3).o
+
+$(PROGRAM_Driver1): $(PROGRAM_Driver1).o
+	$(CC) $(FLAGS) $(LINK) $(EXECUTABLE_NAME1) $(PROGRAM_Driver1).o $(PREFILE1).o $(PREFILE2).o $(PREFILE3).o
+
+$(PROGRAM_Driver2).o: $(PREFILE1).o $(PREFILE1).h $(PREFILE2).o $(PREFILE2).h $(PREFILE3).o $(PREFILE3).h
+	$(CC) $(FLAGS) $(COMPILE) $(PROGRAM_Driver2).o $(PROGRAM_Driver2).cpp
+
+$(PROGRAM_Driver1).o: $(PREFILE1).o $(PREFILE1).h $(PREFILE2).o $(PREFILE2).h $(PREFILE3).o $(PREFILE3).h
+	$(CC) $(FLAGS) $(COMPILE) $(PROGRAM_Driver1).o $(PROGRAM_Driver1).cpp
+
+$(PREFILE1).o: $(PREFILE1).h $(PREFILE2).o $(PREFILE2).h $(PREFILE3).o $(PREFILE3).h
+	$(CC) $(FLAGS) $(COMPILE) $(PREFILE1).o $(PREFILE1).cpp
+
+$(PREFILE2).o: $(PREFILE2).h $(PREFILE3).o $(PREFILE3).h
+	$(CC) $(FLAGS) $(COMPILE) $(PREFILE2).o $(PREFILE2).cpp
+
+$(PREFILE3).o: $(PREFILE3).h
+	$(CC) $(FLAGS) $(COMPILE) $(PREFILE3).o $(PREFILE3).cpp
+
+clean:
+	rm -f *.o
+	rm -f $(EXECUTABLE_NAME1)
+	rm -f $(EXECUTABLE_NAME2)
