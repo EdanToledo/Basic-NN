@@ -90,3 +90,17 @@ void TLDEDA001::Node::setWeights(const std::vector<float> newWeights)
         weights.push_back(newWeights[i]);
     }
 }
+
+
+//Threshold activation function
+const float TLDEDA001::Node::ThresholdActivation(const float input) const
+{
+
+    return (input < threshold) ? 0 : 1;
+}
+
+//sigmoid activation function
+const float TLDEDA001::Node::SigmoidActivation(const float input) const
+{
+    return ((exp(input)) / (exp(input) + 1));
+}
