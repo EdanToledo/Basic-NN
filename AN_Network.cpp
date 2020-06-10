@@ -18,7 +18,6 @@ TLDEDA001::AN_Network::AN_Network(const int NumInputs, const int NumInHiddenLaye
     layers[1][0].ResetWeights(layers[0].size());
 }
 
-
 //train the network
 void TLDEDA001::AN_Network::Train(const TLDEDA001::TrainingData data)
 {
@@ -39,6 +38,21 @@ void TLDEDA001::AN_Network::Train(const TLDEDA001::TrainingData data)
     }
 }
 
+//predict
+const float TLDEDA001::AN_Network::Predict(const std::vector<float> inputs)
+{
+
+    std::vector<float> newInputs;
+    for (int i = 0; i < layers[0].size(); i++)
+    {
+        layers[0][i].setInputs(inputs);
+        newInputs.push_back(layers[0][i].Output());
+    }
+
+    layers[1][0].setInputs(newInputs);
+
+    return layers[1][0].Output();
+}
 
 void TLDEDA001::AN_Network::Reset()
 {
@@ -73,7 +87,6 @@ void TLDEDA001::AN_Network::setLearningRate(const float rate)
     this->learningrate = rate;
 }
 
-
 const float TLDEDA001::AN_Network::PredictIndividual(const int layer, const int index, const std::vector<float> inputs)
 {
 
@@ -81,23 +94,6 @@ const float TLDEDA001::AN_Network::PredictIndividual(const int layer, const int 
 
     return layers[layer][index].Output();
 }
-
-//predict
-const float TLDEDA001::AN_Network::Predict(const std::vector<float> inputs)
-{
-
-    std::vector<float> newInputs;
-    for (int i = 0; i < layers[0].size(); i++)
-    {
-        layers[0][i].setInputs(inputs);
-        newInputs.push_back(layers[0][i].Output());
-    }
-
-    layers[1][0].setInputs(newInputs);
-
-    return layers[1][0].Output();
-}
-
 
 //train the network
 void TLDEDA001::AN_Network::BatchTrain(const int BatchSize, const TLDEDA001::TrainingData data)
@@ -124,6 +120,3 @@ const float TLDEDA001::AN_Network::getMSE(const std::vector<float> inputs, const
 {
     return pow((Predict(inputs) - ExpectedOutput), 2);
 }
-
-
-

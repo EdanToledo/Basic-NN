@@ -1,5 +1,12 @@
 #include "TrainingData.h"
 
+void TLDEDA001::TrainingData::AddDataSet(const float input1, const float input2, const float output)
+{
+    this->input1.push_back(input1);
+    this->input2.push_back(input2);
+    this->output.push_back(output);
+}
+
 const float TLDEDA001::TrainingData::getInput1(const int index) const { return input1[index]; }
 
 const float TLDEDA001::TrainingData::getInput2(const int index) const { return input2[index]; }
@@ -19,15 +26,6 @@ const std::vector<float> TLDEDA001::TrainingData::getInputs(const int index) con
 
     return returnvec;
 }
-
-
-void TLDEDA001::TrainingData::AddDataSet(const float input1, const float input2, const float output)
-{
-    this->input1.push_back(input1);
-    this->input2.push_back(input2);
-    this->output.push_back(output);
-}
-
 
 void TLDEDA001::TrainingData::clearData()
 {

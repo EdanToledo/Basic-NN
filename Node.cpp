@@ -43,7 +43,6 @@ const float TLDEDA001::Node::Output() const
     }
 }
 
-
 void TLDEDA001::Node::ResetWeights(const int NumOfWeights)
 {
     weights.clear();
@@ -73,7 +72,6 @@ void TLDEDA001::Node::setBias(const float bias)
     this->bias = bias;
 }
 
-
 void TLDEDA001::Node::PrintParameters() const
 {
 
@@ -90,7 +88,6 @@ void TLDEDA001::Node::setWeights(const std::vector<float> newWeights)
         weights.push_back(newWeights[i]);
     }
 }
-
 
 //Threshold activation function
 const float TLDEDA001::Node::ThresholdActivation(const float input) const
