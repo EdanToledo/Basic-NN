@@ -19,37 +19,38 @@ namespace TLDEDA001
         //vector containing layers of nodes
         std::vector<std::vector<TLDEDA001::Node>> layers;
         //learning to give nodes
-        float learningrate;
+        double learningrate;
 
     public:
         //Parameter Constructor
-        AN_Network(const int NumInputs, const int NumInHiddenLayer, const float learningRate, const float threshold, const int epoch, const bool sigmoid);
+        AN_Network(const int NumInputs, const int NumInHiddenLayer, const double learningRate, const double threshold, const int epoch, const bool sigmoid);
 
         //train the network
         void Train(const TLDEDA001::TrainingData data);
 
-        //train the network
+        //train the network in batches i.e each node on certain consecutive batches
         void BatchTrain(const int BatchSize, const TLDEDA001::TrainingData data);
 
         //Predict outcome using inputs
-        const float Predict(const std::vector<float> inputs);
+        const double Predict(const std::vector<double> inputs);
 
         //Predict outcome using inputs for specific node
-        const float PredictIndividual(const int layer, const int index, const std::vector<float> inputs);
+        const double PredictIndividual(const int layer, const int index, const std::vector<double> inputs);
 
         //Reset all node Weights and biases
         void Reset();
 
         //Sets threshold value of all nodes
-        void setThresholdOfAllNodes(const float thresh);
+        void setThresholdOfAllNodes(const double thresh);
 
         //returns reference to node in network
         TLDEDA001::Node &getNode(const int layer, const int index);
 
         //set the learning rate
-        void setLearningRate(const float rate);
+        void setLearningRate(const double rate);
 
-        const float getMSE(const std::vector<float> inputs, const float ExpectedOutput);
+        //Returns the MSE of a single input through the network 
+        const double getMSE(const std::vector<double> inputs, const double ExpectedOutput);
     };
 
 } //Namespace TLDEDA001

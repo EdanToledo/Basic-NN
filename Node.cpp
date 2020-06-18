@@ -1,18 +1,18 @@
 #include "Node.h"
 
 //parameter Constructor for Node
-TLDEDA001::Node::Node(const float threshold, const float bias, const bool sigmoid)
+TLDEDA001::Node::Node(const double threshold, const double bias, const bool sigmoid)
 {
     this->threshold = threshold;
     this->sigmoid = sigmoid;
     this->bias = bias;
 }
 
-//Adjust Weights based on expected output
-const float TLDEDA001::Node::AdjustWeights(float learningrate, float expectedOutput)
+//Adjust Weights based on expected output and returns current output
+const double TLDEDA001::Node::AdjustWeights(double learningrate, double expectedOutput)
 {
 
-    float out = Output();
+    double out = Output();
     bias += learningrate * (expectedOutput - out);
 
     for (int i = 0; i < weights.size(); i++)
@@ -23,10 +23,10 @@ const float TLDEDA001::Node::AdjustWeights(float learningrate, float expectedOut
     return out;
 }
 
-//Apply activation Function
-const float TLDEDA001::Node::Output() const
+//take all inputs and apply respective weights and bias and then Apply activation Function and return the output
+const double TLDEDA001::Node::Output() const
 {
-    float tot = 0;
+    double tot = 0;
     for (int i = 0; i < inputs.size(); i++)
     {
         tot += inputs[i] * weights[i];
@@ -43,44 +43,49 @@ const float TLDEDA001::Node::Output() const
     }
 }
 
+//initialises the weights and bias and/or resets them
 void TLDEDA001::Node::ResetWeights(const int NumOfWeights)
 {
     weights.clear();
     bias = 0;
     for (int i = 0; i < NumOfWeights; i++)
     {
-        //  float r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-
         weights.push_back(0);
     }
 }
-
-void TLDEDA001::Node::setInputs(const std::vector<float> inputs)
+//sets the inputs
+void TLDEDA001::Node::setInputs(const std::vector<double> inputs)
 {
     this->inputs.clear();
     this->inputs = inputs;
 }
 
 //Set threshold value for node
-void TLDEDA001::Node::setThreshold(const float threshold)
+void TLDEDA001::Node::setThreshold(const double threshold)
 {
     this->threshold = threshold;
 }
 
-void TLDEDA001::Node::setBias(const float bias)
+//Manually set the bias for the node
+void TLDEDA001::Node::setBias(const double bias)
 {
     this->bias = bias;
 }
 
+//Print to console the threshold and bias values
 void TLDEDA001::Node::PrintParameters() const
 {
 
     std::cout << "Threshold: " << this->threshold << std::endl;
     std::cout << "Bias: " << this->bias << std::endl;
+    for (int i = 0; i < weights.size(); i++)
+    {
+        std::cout << "Weight " << i << ": " << weights[i] << std::endl;
+    }
 }
 
-//Manually set the weights
-void TLDEDA001::Node::setWeights(const std::vector<float> newWeights)
+ //Manually set the weights
+void TLDEDA001::Node::setWeights(const std::vector<double> newWeights)
 {
     weights.clear();
     for (int i = 0; i < newWeights.size(); i++)
@@ -90,14 +95,14 @@ void TLDEDA001::Node::setWeights(const std::vector<float> newWeights)
 }
 
 //Threshold activation function
-const float TLDEDA001::Node::ThresholdActivation(const float input) const
+const double TLDEDA001::Node::ThresholdActivation(const double input) const
 {
 
-    return (input < threshold) ? 0 : 1;
+    return (input <= threshold) ? 0 : 1;
 }
 
 //sigmoid activation function
-const float TLDEDA001::Node::SigmoidActivation(const float input) const
+const double TLDEDA001::Node::SigmoidActivation(const double input) const
 {
     return ((exp(input)) / (exp(input) + 1));
 }

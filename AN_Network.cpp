@@ -1,7 +1,7 @@
 #include "AN_Network.h"
 
 //Parameter Constructor
-TLDEDA001::AN_Network::AN_Network(const int NumInputs, const int NumInHiddenLayer, const float learningRate, const float threshold, const int epochs, const bool sigmoid)
+TLDEDA001::AN_Network::AN_Network(const int NumInputs, const int NumInHiddenLayer, const double learningRate, const double threshold, const int epochs, const bool sigmoid)
 {
     this->epochs = epochs;
     this->NumInputs = NumInputs;
@@ -23,10 +23,9 @@ void TLDEDA001::AN_Network::Train(const TLDEDA001::TrainingData data)
 {
     for (int l = 0; l < epochs; l++)
     {
-
         for (int i = 0; i < data.getSize(); i++)
         {
-            std::vector<float> hiddenlayerOut;
+            std::vector<double> hiddenlayerOut;
             for (int j = 0; j < layers[0].size(); j++)
             {
                 layers[0][j].setInputs(data.getInputs(i));
@@ -39,10 +38,10 @@ void TLDEDA001::AN_Network::Train(const TLDEDA001::TrainingData data)
 }
 
 //predict
-const float TLDEDA001::AN_Network::Predict(const std::vector<float> inputs)
+const double TLDEDA001::AN_Network::Predict(const std::vector<double> inputs)
 {
 
-    std::vector<float> newInputs;
+    std::vector<double> newInputs;
     for (int i = 0; i < layers[0].size(); i++)
     {
         layers[0][i].setInputs(inputs);
@@ -54,6 +53,7 @@ const float TLDEDA001::AN_Network::Predict(const std::vector<float> inputs)
     return layers[1][0].Output();
 }
 
+//Reset all node Weights and biases
 void TLDEDA001::AN_Network::Reset()
 {
 
@@ -65,7 +65,8 @@ void TLDEDA001::AN_Network::Reset()
     layers[1][0].ResetWeights(layers[0].size());
 }
 
-void TLDEDA001::AN_Network::setThresholdOfAllNodes(const float thresh)
+//Sets threshold value of all nodes
+void TLDEDA001::AN_Network::setThresholdOfAllNodes(const double thresh)
 {
 
     for (int i = 0; i < layers[0].size(); i++)
@@ -76,18 +77,19 @@ void TLDEDA001::AN_Network::setThresholdOfAllNodes(const float thresh)
     layers[1][0].setThreshold(thresh);
 }
 
+//returns reference to node in network
 TLDEDA001::Node &TLDEDA001::AN_Network::getNode(const int layer, const int index)
 {
     return layers[layer][index];
 }
 
 //set the learning rate
-void TLDEDA001::AN_Network::setLearningRate(const float rate)
+void TLDEDA001::AN_Network::setLearningRate(const double rate)
 {
     this->learningrate = rate;
 }
 
-const float TLDEDA001::AN_Network::PredictIndividual(const int layer, const int index, const std::vector<float> inputs)
+const double TLDEDA001::AN_Network::PredictIndividual(const int layer, const int index, const std::vector<double> inputs)
 {
 
     layers[layer][index].setInputs(inputs);
@@ -95,7 +97,7 @@ const float TLDEDA001::AN_Network::PredictIndividual(const int layer, const int 
     return layers[layer][index].Output();
 }
 
-//train the network
+//train the network in batches i.e each node on certain consecutive batches
 void TLDEDA001::AN_Network::BatchTrain(const int BatchSize, const TLDEDA001::TrainingData data)
 {
     for (int l = 0; l < epochs; l++)
@@ -116,7 +118,8 @@ void TLDEDA001::AN_Network::BatchTrain(const int BatchSize, const TLDEDA001::Tra
     }
 }
 
-const float TLDEDA001::AN_Network::getMSE(const std::vector<float> inputs, const float ExpectedOutput)
+//Returns the MSE of a single input through the network
+const double TLDEDA001::AN_Network::getMSE(const std::vector<double> inputs, const double ExpectedOutput)
 {
     return pow((Predict(inputs) - ExpectedOutput), 2);
 }

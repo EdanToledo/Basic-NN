@@ -3,20 +3,22 @@
 
 int main(int argc, const char *argv[])
 {
-
+    //Stopper
     if (argc < 2)
     {
         return 0;
     }
-
+    //Training data file
     std::string data = (std::string)argv[1];
 
     TLDEDA001::TrainingData Tdata;
 
-    TLDEDA001::AN_Network Network(2, 2, 0.01, 0, 10,false);
+    //instantiated network with 2 inputs, 2 hidden layer nodes, learning rate of 0.01, threshold of 0, 5 epochs, 
+    //and uses step activation function
+    TLDEDA001::AN_Network Network(2, 2, 0.01, 0, 5, false);
+
 
     //XOR GATE
-
     Tdata.LoadDataFromFile(data);
 
     Network.BatchTrain(4, Tdata);
